@@ -33,9 +33,7 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='C:\Users\User\Downloads\Programs\1.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
-
-GIF created with [LiceCap](http://www.cockos.com/licecap/).
+<img src='C:\Users\User\Downloads\Programs\1.gif' title='Video Walkthrough' width='100px' alt='Video Walkthrough' />
 
 ## Notes
 
@@ -43,7 +41,7 @@ Describe any challenges encountered while building the app.
 
 ## License
 
-    Copyright [yyyy] [name of copyright owner]
+    Copyright [2/22/2016] [Codershool.vn]
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
