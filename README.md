@@ -1,5 +1,3 @@
-# SimpleTodo
-This is a project with add item to listview and edit features.
 # Pre-work - *SimpleTodo*
 
 **SimpleTodo** is an android app that allows building a todo list and basic todo items management functionality including adding new items, editing and deleting an existing item.
@@ -19,7 +17,7 @@ The following **required** functionality is completed:
 The following **optional** features are implemented:
 
 * [ ] Improve style of the todo items in the list [using a custom adapter](http://guides.codepath.com/android/Using-an-ArrayAdapter-with-ListView)
-* [ ] Tweak the style improving the UI / UX, play with colors, images or backgrounds
+* [ ] Tweak the style improving the UI / UX, play with colors, images, backgrounds...
 
 ## Video Walkthrough 
 
