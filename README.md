@@ -26,8 +26,6 @@ Here's a walkthrough of implemented user stories:
 
 <a href="http://imgur.com/S72yzUD"><img src="http://i.imgur.com/S72yzUD.gif" title="source: imgur.com" /></a>
 
-## Notes
-
 
 ## License
 
