@@ -31,9 +31,8 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:text="Save"
+        android:text="@string/save"
         android:id="@+id/btnSave"
-        android:onClick="setupSaveClick"
         android:layout_below="@+id/etEditItem"
         android:layout_centerHorizontal="true"
         android:background="#009688"

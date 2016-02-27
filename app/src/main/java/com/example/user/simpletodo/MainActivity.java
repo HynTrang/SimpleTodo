@@ -1,6 +1,6 @@
 package com.example.user.simpletodo;
 
-import android.content.Intent;
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<String> items;
     ArrayAdapter<String> itemsAdapter;
     ListView lvItems;
+    Button btnAdd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,9 +32,26 @@ public class MainActivity extends AppCompatActivity {
         readItems();
         itemsAdapter = new ArrayAdapter<>(this,R.layout.list_layout,R.id.textView, items);
         lvItems.setAdapter(itemsAdapter);
-        items.add("First Item");
+        //items.add("First Item");
         setupListViewListener();
-        setupItemClick();
+
+        btnAdd = (Button)findViewById(R.id.btnAddItem);
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText etNewItem = (EditText) findViewById(R.id.etNewItem);
+                String itemText = etNewItem.getText().toString();
+                itemsAdapter.add(itemText);
+                etNewItem.setText("");
+                writeItems();
+            }
+        });
+        lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                showInputBox(items.get(position),position);
+            }
+        });
     }
     private void setupListViewListener(){
         lvItems.setOnItemLongClickListener(
@@ -47,40 +66,59 @@ public class MainActivity extends AppCompatActivity {
                 }
         );
     }
-    private final int REQUEST_CODE = 20;
-    private void setupItemClick(){
-        lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-
+    public void showInputBox(String oldItem, final int index){
+        final Dialog dialog = new Dialog(MainActivity.this);
+        dialog.setTitle("Input Box");
+        dialog.setContentView(R.layout.activity_edit);
+        final EditText et=(EditText)dialog.findViewById(R.id.etEditItem);
+        et.setText(oldItem);
+        Button bt = (Button)dialog.findViewById(R.id.btnSave);
+        bt.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent i = new Intent(MainActivity.this,EditActivity.class);
-                String pos = items.get(position);
-
-                i.putExtra("nameItem",pos);//Lay du lieu tu item da duoc chon
-                i.putExtra("code",position);// Lay vi tri tu Item da duoc chon
-                //startActivity(i);
-                startActivityForResult(i,REQUEST_CODE);
-
-               //Toast.makeText(MainActivity.this, "String is:" + pos+"number is:"+position, Toast.LENGTH_SHORT).show();
+            public void onClick(View v) {
+                items.set(index,et.getText().toString());
+                itemsAdapter.notifyDataSetChanged();
+                writeItems();
+                dialog.dismiss();
 
             }
         });
-
+        dialog.show();
     }
+//    private final int REQUEST_CODE = 20;
+//    private void setupItemClick(){
+//        lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+//
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                Intent i = new Intent(MainActivity.this,EditActivity.class);
+//                String pos = items.get(position);
+//
+//                i.putExtra("nameItem",pos);//Lay du lieu tu item da duoc chon
+//                i.putExtra("code",position);// Lay vi tri tu Item da duoc chon
+//                //startActivity(i);
+//                startActivityForResult(i,REQUEST_CODE);
+//
+//               //Toast.makeText(MainActivity.this, "String is:" + pos+"number is:"+position, Toast.LENGTH_SHORT).show();
+//
+//            }
+//        });
+//
+//    }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode == RESULT_OK && requestCode == REQUEST_CODE){
-            String name = data.getExtras().getString("name");
-            int code = data.getExtras().getInt("code",0);
-            //Toast.makeText(this, name + "pos is:" + code, Toast.LENGTH_SHORT).show();
-          // itemsAdapter.add(name);
-            items.set(code,name);
-            itemsAdapter.notifyDataSetChanged();
-            writeItems();
-
-        }
-    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        if(resultCode == RESULT_OK && requestCode == REQUEST_CODE){
+//            String name = data.getExtras().getString("name");
+//            int code = data.getExtras().getInt("code",0);
+//            //Toast.makeText(this, name + "pos is:" + code, Toast.LENGTH_SHORT).show();
+//          // itemsAdapter.add(name);
+//            items.set(code,name);
+//            itemsAdapter.notifyDataSetChanged();
+//            writeItems();
+//
+//        }
+//    }
 
     private void readItems(){
         File filesDir = getFilesDir();
@@ -123,11 +161,5 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void onAddItem(View view) {
-        EditText etNewItem = (EditText) findViewById(R.id.etNewItem);
-        String itemText = etNewItem.getText().toString();
-        itemsAdapter.add(itemText);
-        etNewItem.setText("");
-        writeItems();
-    }
+
 }
